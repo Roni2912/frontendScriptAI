@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ChakraProvider, Box } from '@chakra-ui/react';
 import { AuthProvider } from './context/AuthContext';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import Home from './components/home/Home';
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import Dashboard from './components/dashboard/Dashboard';
-import PrivateRoute from './components/auth/PrivateRoute';
+import Navbar from './components/Layout/Navbar';
+import Footer from './components//Layout/Footer';
+import Home from './components/Home/Home';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
+import Dashboard from './components/Dashboard/Dashboard';
+import PrivateRoute from './components/Auth/PrivateRoute';
 
 function App() {
   return (
