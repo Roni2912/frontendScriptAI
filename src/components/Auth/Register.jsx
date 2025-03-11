@@ -15,6 +15,7 @@ import {
 import { motion } from 'framer-motion';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
+import {authAPI} from "../../services/api"
 
 const MotionBox = motion(Box);
 
@@ -49,11 +50,11 @@ const Register = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, {
+      const response = await authAPI.register({
         username: formData.username,
         email: formData.email,
         password: formData.password,
-      });
+      })
 
       localStorage.setItem('token', response.data.token);
       toast({

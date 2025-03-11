@@ -23,7 +23,7 @@ import {
 } from 'react-icons/fa';
 import ScriptGenerator from './ScriptGenerator';
 import ScriptCard from './ScriptCard';
-import axios from 'axios';
+import {scriptsAPI} from "../../services/api"
 
 const MotionBox = motion(Box);
 
@@ -72,10 +72,15 @@ const Dashboard = () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/scripts`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setScripts(response.data);
+      const response = await scriptsAPI.getAll({
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      const sortedScripts = response.data.sort((a, b) => 
+        new Date(b.createdAt) - new Date(a.createdAt)
+      );
+  
+      setScripts(sortedScripts);
       setIsLoading(false);
     } catch (error) {
       toast({

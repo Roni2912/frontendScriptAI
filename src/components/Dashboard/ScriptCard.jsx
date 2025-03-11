@@ -18,8 +18,8 @@ import {
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { FaTrash, FaExpand, FaCompress } from 'react-icons/fa';
-import axios from 'axios';
 import { useState } from 'react';
+import {scriptsAPI} from "../../services/api"
 
 const MotionBox = motion(Box);
 
@@ -38,17 +38,14 @@ const ScriptCard = ({ script, onDelete }) => {
         throw new Error('Authentication token not found');
       }
 
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_URL}/api/scripts/${script._id}`, 
-        {
+      const response = await scriptsAPI.delete(script._id,{
           headers: { 
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           },
           timeout: 10000
-        }
-      );
-
+      })
+      
       toast({
         title: 'Script Deleted',
         description: response.data.message || 'The script has been successfully deleted.',

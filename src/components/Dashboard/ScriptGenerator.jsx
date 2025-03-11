@@ -12,7 +12,7 @@ import {
   AlertDescription,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import { aiAPI, scriptsAPI } from "../../services/api";
 
 const MotionBox = motion(Box);
 
@@ -37,25 +37,26 @@ const ScriptGenerator = ({ onScriptGenerated }) => {
         throw new Error('Authentication token not found');
       }
 
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/ai/generate`,
-        { prompt },
-        {
-          headers: { 
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          timeout: 40000
-        }
-      );
+      /** TODO: IF NEED */
+      // const response = await  aiAPI.generate(
+      //   { prompt },
+      //   {
+      //     headers: { 
+      //       Authorization: `Bearer ${token}`,
+      //       'Content-Type': 'application/json'
+      //     },
+      //     timeout: 40000
+      //   }
+      // )
+
+      const response = await aiAPI.generate(prompt);
 
       const generatedScript = response.data.generated_script;
       if (!generatedScript) {
         throw new Error('No script was generated');
       }
-
-      await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/scripts`,
+ 
+      await scriptsAPI.create(
         {
           title: prompt.slice(0, 50),
           content: generatedScript,
@@ -63,7 +64,8 @@ const ScriptGenerator = ({ onScriptGenerated }) => {
         {
           headers: { Authorization: `Bearer ${token}` },
         }
-      );
+      )
+      
 
       setPrompt('');
       onScriptGenerated();
