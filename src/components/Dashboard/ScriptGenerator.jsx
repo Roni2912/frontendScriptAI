@@ -51,7 +51,7 @@ const ScriptGenerator = ({ onScriptGenerated }) => {
 
       const response = await aiAPI.generate(prompt);
 
-      const generatedScript = response.data.generated_script;
+      const generatedScript = response.data.generated_script.replace(/```[a-z]*\n|```/g, '');
       if (!generatedScript) {
         throw new Error('No script was generated');
       }
